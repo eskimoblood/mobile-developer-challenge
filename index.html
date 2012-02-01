@@ -20,6 +20,7 @@
         border: 3px solid #000;
         height: 600px;
         width: 600px;
+        overflow: hidden;
       }
       div {
         position: absolute;
@@ -29,6 +30,8 @@
         height: 500px;
         width: 500px;
         background: #CCC;
+        -webkit-transition-property: top, left;  
+        -webkit-transition-duration: 1s;
       }
       button {
         -webkit-appearance: none;
@@ -76,6 +79,19 @@
       button.left:before {
         content: '⇠';
       }
+
+      .move-up {
+        top: 10%;
+      }
+      .move-down {
+        top: 90%;
+      }
+      .move-left {
+        left: 10%;
+      }
+      .move-right {
+        left: 90%;
+      }
     </style>
   </head>
   <body>
@@ -87,5 +103,27 @@
         <button class="left"></button>
       </div>
     </section>
+
+    <script type="text/javascript">
+      (function  () {
+        var container = document.getElementsByTagName('div')[0];
+        var direction;
+        Array.prototype.slice.call(document.getElementsByTagName('button'), 0).forEach(function (button, i){
+          button.addEventListener('click', function(){move('move-' + button.className, (i % 2) )});
+        });        
+
+        function move(className, dir){
+          if (direction == null || dir === direction) {
+            if (container.className) {
+              container.className  = '';
+              direction = null; 
+            } else {
+              direction = dir; 
+              container.className  =  className ;
+            }
+          }
+        }
+      })()
+    </script>
   </body>
 </html>
