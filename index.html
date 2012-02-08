@@ -32,6 +32,7 @@
         background: #CCC;
         -webkit-transition-property: top, left;  
         -webkit-transition-duration: 1s;
+        -webkit-transform: translateZ(0);
       }
       button {
         -webkit-appearance: none;
@@ -92,15 +93,17 @@
       .move-right {
         left: 90%;
       }
+
+
     </style>
   </head>
   <body>
     <section>
       <div>
-        <button class="up"></button>
-        <button class="right"></button>
-        <button class="down"></button>
-        <button class="left"></button>
+        <button class="up" data-dir="vertical"></button>
+        <button class="right" data-dir="horizontal"></button>
+        <button class="down" data-dir="vertical"></button>
+        <button class="left" data-dir="horizontal"></button>
       </div>
     </section>
 
@@ -108,20 +111,19 @@
       (function  () {
         var container = document.getElementsByTagName('div')[0];
         var direction;
-        Array.prototype.slice.call(document.getElementsByTagName('button'), 0).forEach(function (button, i){
-          button.addEventListener('click', function(){move('move-' + button.className, (i % 2) )});
-        });        
-
-        function move(className, dir){
-          if (direction == null || dir === direction) {
+        container.addEventListener('click', move);
+        
+        function move(event){
+          target = event.target;
+          if (target.tagName =='BUTTON' && (direction == null || target.dataset.dir ===  direction)) {
             if (container.className) {
               container.className  = '';
               direction = null; 
             } else {
-              direction = dir; 
-              container.className  =  className ;
+              direction = target.dataset.dir; 
+              container.className  =  'move-' + target.className ;
             }
-          }
+        }
         }
       })()
     </script>
